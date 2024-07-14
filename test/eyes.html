@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <title>冷弋白的网页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+
+    html,
+    body,
+    #app {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    #app {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #1a1a1a;
+    }
+
+    .eye {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: 300px;
+      /* border-radius: 50%; */
+      background-color: white;
+      margin-right: 100px;
+
+      .pupil {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: black;
+        /* border-radius: 50%; */
+
+
+        .line {
+          /* display: none; */
+          left: 50%;
+          top: 50%;
+          position: absolute;
+          height: 3px;
+          background-color: red;
+          transform-origin: left center;
+          z-index: 999;
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id='app'>
+    <div class="eye">
+      <div class="pupil">
+        <div class="line"></div>
+      </div>
+    </div>
+
+    <div class="eye">
+      <div class="pupil">
+        <div class="line"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JS -->
+  <script type='text/javascript'>
+    const eyes = app.querySelectorAll('.eye');
+
+    const mouseMoveHandler = (event) => {
+      eyes.forEach((eye, index) => {
+        const pupil = eye.querySelector('.pupil');
+        const line = eye.querySelector('.line');
+
+        //获取眼球半径
+        const radius = eye.offsetWidth / 2
+        //鼠标移动指定距离达到虹膜最大可移动距离
+        const maxDistance = window.innerWidth / 2
+
+        //计算邻边
+        const x = event.clientX - eye.offsetLeft - radius;
+        //计算对边
+        const y = event.clientY - eye.offsetTop - radius;
+        //计算角度
+        const angle = Math.atan2(y, x) * 180 / Math.PI;
+        //计算相对屏幕的斜边
+        const distance = Math.sqrt(x * x + y * y);
+        //限制虹膜移动范围
+        const limit = Math.min(pupil.offsetWidth / (radius * 1.15), distance / maxDistance)
+        //计算虹膜x位置
+        const pupilX = radius * Math.cos(angle * Math.PI / 180) * limit;
+        //计算虹膜y位置
+        const pupilY = radius * Math.sin(angle * Math.PI / 180) * limit;
+
+        pupil.style.transform = `translate(${ pupilX }px, ${ pupilY }px) rotate(${ angle }deg)`
+        line.style.width = distance - Math.sqrt(Math.pow(pupilX, 2) + Math.pow(pupilY, 2)) + 'px';
+      });
+    };
+
+    window.addEventListener('mousemove', mouseMoveHandler);
+  </script>
+</body>
+
+</html>
