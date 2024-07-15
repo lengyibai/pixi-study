@@ -175,3 +175,18 @@ export const useD = async (app: PIXI.Application) => {
 
   app.start();
 };
+
+/** @description 使用资源 */
+export const useE = async (app: PIXI.Application) => {
+  // 异步加载图像资源
+  const treeTexture = await PIXI.Assets.load({
+    src: "/public/img/diamond.png",
+  });
+
+  // 创建精灵
+  const sprite = PIXI.Sprite.from(treeTexture);
+  sprite.x = app.screen.width / 2;
+  sprite.y = app.screen.height / 2;
+  sprite.anchor.set(0.5, 0.5);
+  app.stage.addChild(sprite);
+};
