@@ -1,0 +1,30 @@
+{
+  "bundles": [
+    {
+      "name": "AAA",
+      "assets": [
+        {
+          "alias": "diamond",
+          "src": "/img/diamond.png"
+        },
+        {
+          "alias": "gold",
+          "src": "/img/gold.png"
+        }
+      ]
+    },
+    {
+      "name": "BBB",
+      "assets": [
+        {
+          "alias": "debris",
+          "src": "/img/hero_debris.png"
+        },
+        {
+          "alias": "diamond",
+          "src": "/img/hero_lottery_coin.png"
+        }
+      ]
+    }
+  ]
+}

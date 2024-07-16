@@ -1,0 +1,30 @@
+{
+  "bundles": [
+    {
+      "name": "AAA",
+      "assets": [
+        {
+          "alias": "honor",
+          "src": "/img/honor_crystal.png"
+        },
+        {
+          "alias": "king",
+          "src": "/img/king_crystal.png"
+        }
+      ]
+    },
+    {
+      "name": "BBB",
+      "assets": [
+        {
+          "alias": "debris",
+          "src": "/img/skin_debris.png"
+        },
+        {
+          "alias": "coin",
+          "src": "/img/skin_lottery_coin.png"
+        }
+      ]
+    }
+  ]
+}

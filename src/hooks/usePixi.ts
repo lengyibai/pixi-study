@@ -1,16 +1,24 @@
+import { AdjustmentFilter, BackdropBlurFilter } from "pixi-filters";
 import * as PIXI from "pixi.js";
+import {
+  AnimatedSprite,
+  Assets,
+  Container,
+  Graphics,
+  GraphicsContext,
+  Sprite,
+  Spritesheet,
+  Text,
+  Texture,
+  type Application,
+} from "pixi.js";
 
 /** @description 使用单个精灵 */
-export const useA = async (app: PIXI.Application) => {
-  await PIXI.Assets.load("/img/diamond.png");
-  let sprite = PIXI.Sprite.from("/img/diamond.png");
-  app.stage.addChild(sprite);
+export const useA = async (app: Application) => {
+  const texture = await Assets.load("/img/diamond.png");
 
-  let elapsed = 0; // 初始化时间变量
-  app.ticker.add((ticker) => {
-    elapsed += ticker.deltaTime / 60; //用于适配屏幕刷新率
-    sprite.x = 100.0 + Math.cos(elapsed) * 100.0; // 根据时间变量更新精灵的x坐标
-  });
+  const sprite = new PIXI.Sprite(texture);
+  app.stage.addChild(sprite);
 };
 
 /** @description 使用精灵容器，叠加效果 */
@@ -28,8 +36,8 @@ export const useB = async (app: PIXI.Application) => {
   const sprites: PIXI.Container[] = [];
   let parent = container;
   for (let i = 0; i < 3; i++) {
-    let wrapper = new PIXI.Container();
-    let sprite = PIXI.Sprite.from(img);
+    const wrapper = new PIXI.Container();
+    const sprite = PIXI.Sprite.from(img);
 
     //设置精灵的中心点
     sprite.anchor.set(0.5, 0.5);
@@ -106,7 +114,7 @@ export const useC = async (app: PIXI.Application) => {
     return container;
   }
 
-  let a = addLetter("A", app.stage, 0xff0000, { x: 0, y: 0 });
+  const a = addLetter("A", app.stage, 0xff0000, { x: 0, y: 0 });
   addLetter("B", app.stage, 0x00ff00, { x: 10, y: 10 });
   addLetter("C", app.stage, 0x0000ff, { x: 20, y: 20 });
   addLetter("D", app.stage, 0xff8800, { x: 30, y: 30 });
@@ -132,9 +140,9 @@ export const useC = async (app: PIXI.Application) => {
     //将第一元素关闭渲染，关闭渲染会隐藏元素，比如那些移除屏幕或被遮挡的元素
     letters[0].renderable = false;
     //获取相对cnavas的位置
-    let globalPos = letters[0].getGlobalPosition();
+    const globalPos = letters[0].getGlobalPosition();
     //获取相对stage的位置
-    let localPos = letters[0].getGlobalPosition();
+    const localPos = letters[0].getGlobalPosition();
     console.log(letters[0].position, globalPos);
 
     setTimeout(() => {

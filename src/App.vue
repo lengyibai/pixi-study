@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import * as PIXI from "pixi.js";
 import { ref } from "vue";
-import { useC, useD, useE } from "./hooks/usePixi";
+
+import { useA, useD, useE } from "./hooks/usePixi";
 import { useDemo } from "./hooks/usePlayground";
 
 const appRef = ref<HTMLElement>();
@@ -11,17 +12,19 @@ app
   .init({
     backgroundColor: 0x1099bb,
     resolution: window.devicePixelRatio || 1,
-    width: window.innerWidth / 2,
-    height: window.innerHeight / 2,
+    // resizeTo: window,
+    width: 1280,
+    height: 720,
+    antialias: true, // 开启抗锯齿
   })
   .then(async () => {
     appRef.value?.appendChild(app.canvas);
-    useDemo(app);
+    useA(app);
   });
 </script>
 
 <template>
-  <div class="App" ref="appRef"></div>
+  <div ref="appRef" class="App"></div>
 </template>
 
 <style lang="less">
