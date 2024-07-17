@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "pixi-filters": "^6.0.4",
+    "pixi-spine": "^4.0.4",
     "pixi.js": "^8.2.5",
     "vue": "^3.4.29"
   },

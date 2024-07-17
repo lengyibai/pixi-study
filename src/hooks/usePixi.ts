@@ -3,70 +3,57 @@ import * as PIXI from "pixi.js";
 import {
   AnimatedSprite,
   Assets,
+  Color,
   Container,
+  FillGradient,
   Graphics,
   GraphicsContext,
+  MeshPlane,
   Sprite,
   Spritesheet,
   Text,
+  TextStyle,
   Texture,
   type Application,
 } from "pixi.js";
 
 /** @description 使用单个精灵 */
 export const useA = async (app: Application) => {
-  const texture = await Assets.load("/img/diamond.png");
+  Assets.addBundle("fonts", [
+    { alias: "ChaChicle", src: "https://pixijs.com/assets/webfont-loader/ChaChicle.ttf" },
+    { alias: "Lineal", src: "https://pixijs.com/assets/webfont-loader/Lineal.otf" },
+    {
+      alias: "Dotrice Regular",
+      src: "https://pixijs.com/assets/webfont-loader/Dotrice-Regular.woff",
+    },
+    { alias: "Crosterian", src: "https://pixijs.com/assets/webfont-loader/Crosterian.woff2" },
+  ]);
 
-  const sprite = new PIXI.Sprite(texture);
-  app.stage.addChild(sprite);
-};
+  // Load the font bundle
+  const fonts = await Assets.loadBundle("fonts");
 
-/** @description 使用精灵容器，叠加效果 */
-export const useB = async (app: PIXI.Application) => {
-  const container = new PIXI.Container({
-    x: app.screen.width / 2,
-    y: app.screen.height / 2,
+  const text1 = new Text({
+    text: "ChaChicle.ttf",
+    style: { fontFamily: "ChaChicle", fontSize: 50 },
   });
-  app.stage.addChild(container);
-
-  const img = "/img/diamond.png";
-  await PIXI.Assets.load(img);
-
-  //创建3个精灵，每个精灵是最后一个孩子
-  const sprites: PIXI.Container[] = [];
-  let parent = container;
-  for (let i = 0; i < 3; i++) {
-    const wrapper = new PIXI.Container();
-    const sprite = PIXI.Sprite.from(img);
-
-    //设置精灵的中心点
-    sprite.anchor.set(0.5, 0.5);
-    wrapper.addChild(sprite);
-    parent.addChild(wrapper);
-    sprites.push(wrapper);
-    parent = wrapper;
-  }
-
-  //将所有Sprite的属性设置为相同的值，随着时间的推移动画
-  let elapsed = 0.0;
-
-  app.ticker.add((delta) => {
-    elapsed += delta.deltaTime / 60;
-
-    const amount = Math.sin(elapsed);
-    const scale = 1.0 + 0.25 * amount;
-    const alpha = 0.75 + 0.25 * amount;
-    const angle = 40 * amount;
-    const x = 75 * amount;
-
-    for (let i = 0; i < sprites.length; i++) {
-      const sprite = sprites[i];
-      sprite.scale.set(scale);
-      sprite.alpha = alpha;
-      sprite.angle = angle;
-      sprite.x = x;
-    }
+  const text2 = new Text({ text: "Lineal.otf", style: { fontFamily: "Lineal", fontSize: 50 } });
+  const text3 = new Text({
+    text: "Dotrice Regular.woff",
+    style: { fontFamily: "Dotrice Regular", fontSize: 50 },
   });
+  const text4 = new Text({
+    text: "Crosterian.woff2",
+    style: { fontFamily: "Crosterian", fontSize: 50 },
+  });
+
+  text2.y = 150;
+  text3.y = 300;
+  text4.y = 450;
+
+  app.stage.addChild(text1);
+  app.stage.addChild(text2);
+  app.stage.addChild(text3);
+  app.stage.addChild(text4);
 };
 
 /** @description 层级关系 */

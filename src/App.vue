@@ -15,7 +15,7 @@ app
     // resizeTo: window,
     width: 1280,
     height: 720,
-    antialias: true, // 开启抗锯齿
+    antialias: false, // 开启抗锯齿
   })
   .then(async () => {
     appRef.value?.appendChild(app.canvas);
