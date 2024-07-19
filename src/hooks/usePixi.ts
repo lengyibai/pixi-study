@@ -9,6 +9,7 @@ import {
   Graphics,
   GraphicsContext,
   MeshPlane,
+  Rectangle,
   Sprite,
   Spritesheet,
   Text,
@@ -19,41 +20,21 @@ import {
 
 /** @description 使用单个精灵 */
 export const useA = async (app: Application) => {
-  Assets.addBundle("fonts", [
-    { alias: "ChaChicle", src: "https://pixijs.com/assets/webfont-loader/ChaChicle.ttf" },
-    { alias: "Lineal", src: "https://pixijs.com/assets/webfont-loader/Lineal.otf" },
-    {
-      alias: "Dotrice Regular",
-      src: "https://pixijs.com/assets/webfont-loader/Dotrice-Regular.woff",
-    },
-    { alias: "Crosterian", src: "https://pixijs.com/assets/webfont-loader/Crosterian.woff2" },
+  const data = await Assets.load([
+    { alias: "mc", src: "https://pixijs.com/assets/spritesheet/mc.json" },
   ]);
+  const explosionTextures = [];
 
-  // Load the font bundle
-  const fonts = await Assets.loadBundle("fonts");
+  for (let i = 0; i < Object.keys(data.mc.data.frames).length; i++) {
+    const texture = Assets.get(`Explosion_Sequence_A ${i + 1}.png`);
+    explosionTextures.push(texture);
+  }
 
-  const text1 = new Text({
-    text: "ChaChicle.ttf",
-    style: { fontFamily: "ChaChicle", fontSize: 50 },
-  });
-  const text2 = new Text({ text: "Lineal.otf", style: { fontFamily: "Lineal", fontSize: 50 } });
-  const text3 = new Text({
-    text: "Dotrice Regular.woff",
-    style: { fontFamily: "Dotrice Regular", fontSize: 50 },
-  });
-  const text4 = new Text({
-    text: "Crosterian.woff2",
-    style: { fontFamily: "Crosterian", fontSize: 50 },
-  });
+  const sprite = new Sprite(explosionTextures[0]);
 
-  text2.y = 150;
-  text3.y = 300;
-  text4.y = 450;
+  console.log(explosionTextures);
 
-  app.stage.addChild(text1);
-  app.stage.addChild(text2);
-  app.stage.addChild(text3);
-  app.stage.addChild(text4);
+  app.stage.addChild(sprite);
 };
 
 /** @description 层级关系 */
@@ -70,7 +51,7 @@ export const useC = async (app: PIXI.Application) => {
   const letters: PIXI.Container[] = [];
   function addLetter(
     letter: string,
-    parent: PIXI.Container<PIXI.ContainerChild>,
+    parent: PIXI.Container<PIXI.ContainerChPIXI.ild>,
     color: number,
     position: { x: number; y: number },
   ) {
