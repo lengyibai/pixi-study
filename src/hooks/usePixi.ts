@@ -1,4 +1,3 @@
-import { AdjustmentFilter, BackdropBlurFilter } from "pixi-filters";
 import * as PIXI from "pixi.js";
 import {
   AnimatedSprite,
@@ -18,23 +17,68 @@ import {
   type Application,
 } from "pixi.js";
 
-/** @description 使用单个精灵 */
 export const useA = async (app: Application) => {
-  const data = await Assets.load([
-    { alias: "mc", src: "https://pixijs.com/assets/spritesheet/mc.json" },
-  ]);
-  const explosionTextures = [];
+  const createBlock = (color: string, text: string) => {
+    const container = new PIXI.Container();
+    const graphics = new PIXI.Graphics();
+    graphics.rect(0, 0, 100, 100);
+    graphics.fill(color);
+    container.addChild(graphics);
 
-  for (let i = 0; i < Object.keys(data.mc.data.frames).length; i++) {
-    const texture = Assets.get(`Explosion_Sequence_A ${i + 1}.png`);
-    explosionTextures.push(texture);
-  }
+    const style = new PIXI.TextStyle({
+      fill: "#ffffff",
+      fontSize: 10,
+      fontWeight: "bold",
+    });
+    const message = new PIXI.Text({
+      text,
+      style,
+    });
+    message.anchor.set(0.5);
+    message.position.set(50, 50);
+    container.addChild(message);
 
-  const sprite = new Sprite(explosionTextures[0]);
+    return container;
+  };
 
-  console.log(explosionTextures);
+  const left = createBlock("#c0392b", "Left");
+  const center = createBlock("#d35400", "Center");
+  const right = createBlock("#f39c12", "Right");
+  const top = createBlock("#27ae60", "Top");
+  const bottom = createBlock("#2980b9", "Bottom");
 
-  app.stage.addChild(sprite);
+  app.stage.addChild(left);
+  app.stage.addChild(center);
+  app.stage.addChild(right);
+  app.stage.addChild(top);
+  app.stage.addChild(bottom);
+
+  const resize = () => {
+    const { width, height } = app.renderer;
+
+    left.width = width * 0.2;
+    left.height = height * 0.8;
+    left.position.set(0, height * 0.1);
+
+    right.width = width * 0.2;
+    right.height = height * 0.8;
+    right.position.set(width * 0.8, height * 0.1);
+
+    center.width = width * 0.6;
+    center.height = height * 0.8;
+    center.position.set(width * 0.2, height * 0.1);
+
+    top.width = width;
+    top.height = height * 0.1;
+    top.position.set(0, 0);
+
+    bottom.width = width;
+    bottom.height = height * 0.1;
+    bottom.position.set(0, height * 0.9);
+  };
+
+  resize();
+  window.addEventListener("resize", resize);
 };
 
 /** @description 层级关系 */
@@ -51,7 +95,7 @@ export const useC = async (app: PIXI.Application) => {
   const letters: PIXI.Container[] = [];
   function addLetter(
     letter: string,
-    parent: PIXI.Container<PIXI.ContainerChPIXI.ild>,
+    parent: any,
     color: number,
     position: { x: number; y: number },
   ) {
